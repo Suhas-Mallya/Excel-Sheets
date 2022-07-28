@@ -33,6 +33,10 @@ body {
     margin-right: 1rem;
 }
 
+.cellprop-actions-cont > * :hover {
+    cursor: pointer;
+}
+
 .cellprop-actions-cont > select {
     border: none;
     border-radius: 2px;
@@ -178,4 +182,17 @@ body {
     border: 1px solid #dfe4ea;
     background-color: #fff;
     outline: none;
+}
+
+.color-prop {
+    position: relative;
+}
+
+.color-prop > input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
