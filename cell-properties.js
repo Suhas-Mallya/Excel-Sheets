@@ -11,7 +11,10 @@ for(let i=0; i<rows; i++) {
             fontFamily: "monospace",
             fontSize: "12",
             fontColor: "#000000",
-            BGcolor: "#ffffff"
+            BGcolor: "#ffffff",
+            value: "",
+            formula: "",
+            children: []
         }
         sheetRow.push(cellProp);
     }
@@ -41,7 +44,7 @@ let inactiveColorProp = "#ecf0f1";
 
 bold.addEventListener("click", (e) => {
     let address = addressBar.value;
-    let [cell, cellProp] = activeCell(address);
+    let [cell, cellProp] = getCellAndCellProp(address);
 
     // Modification
     cellProp.bold = !cellProp.bold;
@@ -52,7 +55,7 @@ bold.addEventListener("click", (e) => {
 
 italic.addEventListener("click", (e) => {
     let address = addressBar.value;
-    let [cell, cellProp] = activeCell(address);
+    let [cell, cellProp] = getCellAndCellProp(address);
 
     // Modification
     cellProp.italic = !cellProp.italic;
@@ -63,7 +66,7 @@ italic.addEventListener("click", (e) => {
 
 underline.addEventListener("click", (e) => {
     let address = addressBar.value;
-    let [cell, cellProp] = activeCell(address);
+    let [cell, cellProp] = getCellAndCellProp(address);
 
     // Modification
     cellProp.underline = !cellProp.underline;
@@ -74,7 +77,7 @@ underline.addEventListener("click", (e) => {
 
 fontSize.addEventListener("change", (e)=> {
     let address = addressBar.value;
-    let [cell, cellProp] = activeCell(address);
+    let [cell, cellProp] = getCellAndCellProp(address);
 
     cellProp.fontSize = fontSize.value; 
     cell.style.fontSize = cellProp.fontSize + "px";
@@ -83,7 +86,7 @@ fontSize.addEventListener("change", (e)=> {
 
 fontFamily.addEventListener("change", (e)=> {
     let address = addressBar.value;
-    let [cell, cellProp] = activeCell(address);
+    let [cell, cellProp] = getCellAndCellProp(address);
 
     cellProp.fontFamily = fontFamily.value; 
     cell.style.fontFamily = cellProp.fontFamily;
@@ -92,7 +95,7 @@ fontFamily.addEventListener("change", (e)=> {
 
 fontColor.addEventListener("change", (e) => {
     let address = addressBar.value;
-    let [cell, cellProp] = activeCell(address);
+    let [cell, cellProp] = getCellAndCellProp(address);
 
     cellProp.fontColor = fontColor.value; 
     cell.style.color = cellProp.fontColor;
@@ -101,7 +104,7 @@ fontColor.addEventListener("change", (e) => {
 
 BGcolor.addEventListener("change", (e) => {
     let address = addressBar.value;
-    let [cell, cellProp] = activeCell(address);
+    let [cell, cellProp] = getCellAndCellProp(address);
 
     cellProp.BGcolor = BGcolor.value; 
     cell.style.backgroundColor = cellProp.BGcolor;
@@ -111,7 +114,7 @@ BGcolor.addEventListener("change", (e) => {
 alignment.forEach((alignElem) => {
     alignElem.addEventListener("click", (e) => {
         let address = addressBar.value;
-        let [cell, cellProp] = activeCell(address);
+        let [cell, cellProp] = getCellAndCellProp(address);
 
         let alignValue = e.target.classList[0];
         cellProp.alignment = alignValue;
@@ -157,7 +160,7 @@ function addListenerToAttachCellProp(cell) {
         cell.style.color = cellProp.fontColor;
         cell.style.backgroundColor = cellProp.BGcolor;
         cell.style.textAlign = cellProp.alignment;
-        
+
 
         // Apply UI Properties Container
         bold.style.backgroundColor = cellProp.bold ? activeColorProp : inactiveColorProp;
@@ -184,10 +187,14 @@ function addListenerToAttachCellProp(cell) {
                 rightAlign.style.backgroundColor = activeColorProp;
                 break;
         }
+
+        let formulaBar = document.querySelector(".formula-bar");
+        formulaBar.value = cellProp.formula;
+        cell.value = cellProp.value; 
     });
 }
 
-function activeCell(address) {
+function getCellAndCellProp(address) {
     let [rid,cid] = decodeIdFromAddress(address);
     // Access cell & Storage Object
     let cell = document.querySelector(`.cell[rid="${rid}"][cid="${cid}"]`);
@@ -200,4 +207,4 @@ function decodeIdFromAddress(address) {
     let rid = Number(address.slice(1)-1);
     let cid = Number(address.charCodeAt(0)) - 65;
     return [rid, cid];
-} 
+}
