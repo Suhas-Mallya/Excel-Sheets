@@ -31,12 +31,12 @@ function isGraphCyclic(graphComponentMatrix) {
             if(!visited[i][j]) {
                 let hasCycle = dfsCycleDetection(graphComponentMatrix,i,j,visited, dfsvisited);
                 if(hasCycle === true)
-                    return true;
+                    return [i,j];
             }
         }
     }
 
-    return false;
+    return null;
 }
 
 function dfsCycleDetection(graphComponentMatrix, srcr, srcc, visited, dfsvisited) {
