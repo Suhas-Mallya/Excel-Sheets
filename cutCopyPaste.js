@@ -67,13 +67,17 @@ cutBtn.addEventListener("click", (e) => {
     if (rangeStorage.length < 2) return;
 
     let [strow, stcol, endrow, endcol] = [ rangeStorage[0][0], rangeStorage[0][1], rangeStorage[1][0], rangeStorage[1][1] ];
-
+    copyData = [];
     for (let i = strow;i <= endrow;i++) {
+        let copyRow = []
         for (let j = stcol;j <= endcol;j++) {
             let cell = document.querySelector(`.cell[rid="${i}"][cid="${j}"]`);
 
             // DB
             let cellProp = sheetDB[i][j];
+            console.log(cellProp);
+            copyRow.push(cellProp);
+
             cellProp.value = "";
             cellProp.bold = false;
             cellProp.italic = false;
@@ -87,9 +91,11 @@ cutBtn.addEventListener("click", (e) => {
             // UI
             cell.click();
         }
+        copyData.push(copyRow);
     }
 
     defaultSelectedCellsUI();
+    console.log(copyData);
 })
 
 pasteBtn.addEventListener("click" ,(e) => {
